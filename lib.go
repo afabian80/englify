@@ -11,6 +11,9 @@ const (
 	buildWord  = iota
 )
 
+// collectWords is a state machine to parse HTML
+// and collect words from it.
+// Tags and HTML excape texts are ignored.
 func collectWords(input string) []string {
 	var word string
 	words := make([]string, 0)
