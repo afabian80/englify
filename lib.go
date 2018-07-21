@@ -5,10 +5,10 @@ import (
 )
 
 const (
-	start      = iota
-	skipTag    = iota
-	skipEscape = iota
-	buildWord  = iota
+	start = iota
+	skipTag
+	skipEscape
+	buildWord
 )
 
 // collectWords is a state machine to parse HTML
@@ -18,24 +18,28 @@ func collectWords(input string) []string {
 	var word string
 	words := make([]string, 0)
 	state := start
+	actualTag := ""
+	inBody := false
 	for _, char := range input {
 		switch state {
 		case start:
 			switch char {
 			case '<':
 				state = skipTag
-			case '&':
-				state = skipEscape
 			default:
-				state = buildWord
-				word += string(char)
+				// skip
 			}
 		case skipTag:
 			switch char {
 			case '>':
 				state = buildWord
+				actualTag = ""
 			default:
 				state = skipTag
+				actualTag += string(char)
+				if actualTag == "body" || strings.HasPrefix(actualTag, "body ") {
+					inBody = true
+				}
 			}
 		case skipEscape:
 			switch char {
@@ -48,14 +52,14 @@ func collectWords(input string) []string {
 			switch char {
 			case '<':
 				state = skipTag
-				words = addIfNonEmpty(words, word)
+				words = addIfNonEmpty(words, word, inBody)
 				word = ""
 			case '&':
 				state = skipEscape
 			default:
 				if isPunctuation(char) {
 					state = buildWord
-					words = addIfNonEmpty(words, word)
+					words = addIfNonEmpty(words, word, inBody)
 					word = ""
 				} else {
 					word += string(char)
@@ -63,7 +67,7 @@ func collectWords(input string) []string {
 			}
 		}
 	}
-	words = addIfNonEmpty(words, word)
+	words = addIfNonEmpty(words, word, inBody)
 	return words
 }
 
@@ -75,8 +79,8 @@ func isPunctuation(char rune) bool {
 	return false
 }
 
-func addIfNonEmpty(ws []string, w string) []string {
-	if w != "" {
+func addIfNonEmpty(ws []string, w string, b bool) []string {
+	if w != "" && b {
 		return append(ws, w)
 	}
 	return ws
