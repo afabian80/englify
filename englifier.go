@@ -81,7 +81,7 @@ func isPunctuation(char rune) bool {
 
 func addIfNonEmpty(ws []string, w string, b bool) []string {
 	if w != "" && b {
-		return append(ws, w)
+		return append(ws, strings.ToLower(w))
 	}
 	return ws
 }

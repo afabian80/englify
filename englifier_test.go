@@ -26,6 +26,7 @@ func Test_CollectWords(t *testing.T) {
 		{"with attributes", args{`<html class="one"><body>the <b id="two">quick</b></body></html>`}, []string{"the", "quick"}},
 		{"with escape", args{"<html><body>the <b>quick&amp;brown</b></body></html>"}, []string{"the", "quickbrown"}},
 		{"single word in body with attribute", args{`<html><body class="apple">the</body></html>`}, []string{"the"}},
+		{"uppercase", args{"<html><body>The Quick BROWN</body></html>"}, []string{"the", "quick", "brown"}},
 		// TODO collect words with number of occurences
 	}
 	for _, tt := range tests {
