@@ -11,10 +11,10 @@ const (
 	buildWord
 )
 
-// collectWords is a state machine to parse HTML
+// CollectWords is a state machine to parse HTML
 // and collect words from it.
 // Tags and HTML excape texts are ignored.
-func collectWords(input string) []string {
+func CollectWords(input string) []string {
 	var word string
 	words := make([]string, 0)
 	state := start

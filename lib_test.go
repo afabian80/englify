@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func Test_collectWords(t *testing.T) {
+func Test_CollectWords(t *testing.T) {
 	type args struct {
 		input string
 	}
@@ -30,8 +30,8 @@ func Test_collectWords(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := collectWords(tt.args.input); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("collectWords() = %#v, want %#v", got, tt.want)
+			if got := CollectWords(tt.args.input); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("CollectWords() = %#v, want %#v", got, tt.want)
 			}
 		})
 	}
