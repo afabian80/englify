@@ -1,4 +1,4 @@
-package englify
+package englifier
 
 import (
 	"reflect"
