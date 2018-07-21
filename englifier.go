@@ -72,7 +72,7 @@ func CollectWords(input string) []string {
 }
 
 func isPunctuation(char rune) bool {
-	punctuations := " ,.;!?\r\n"
+	punctuations := " ,.;:!?*[](){}\"'\r\n"
 	if strings.Index(punctuations, string(char)) >= 0 {
 		return true
 	}
